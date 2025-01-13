@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playlist-rules-generator
+  labels:
+    app: playlist-rules-generator
+spec:
+  replicas: 2  # Number of desired pods
+  selector:
+    matchLabels:
+      app: playlist-rules-generator
+  template:
+    metadata:
+      labels:
+        app: playlist-rules-generator
+    spec:
+      containers:
+      - name: playlist-rules-generator
+        image: your-dockerhub-username/playlist-rules-generator:latest  # Replace with your Docker image
+        ports:
+        - containerPort: 8000  # Assuming the app runs on port 8000
+        env:
+        - name: MIN_SUPPORT_RATIO
+          value: "0.4"  # Example of setting environment variables
+        - name: MIN_CONFIDENCE
+          value: "0.5"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: rules-storage
+          mountPath: /app/data  # Path to persist rules
+      volumes:
+      - name: rules-storage
+        emptyDir: {}  # You can replace this with a persistent volume claim
