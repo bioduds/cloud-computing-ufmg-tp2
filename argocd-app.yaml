@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ArgoApp
+spec:
+  destination:
+    name: ''
+    namespace: eduardoalmeida
+    server: https://kubernetes.default.svc
+  source:
+    path: k8
+    repoURL: https://github.com/bioduds/cloud-computing-ufmg-tp2.git
+    targetRevision: HEAD
+    directory:
+      jsonnet:
+        tlas: []
+  sources: []
+  project: eduardoalmeida-project
